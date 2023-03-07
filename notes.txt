@@ -1,0 +1,6 @@
+
+server-side sessions
+loggin -> server sets cookie called "session_id"
+every time client makes request -> server receives that session session_id
+server will check for any session which refers to the session session_id
+if there is a session with that id, you are authenticaed
