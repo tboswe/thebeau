@@ -2,15 +2,17 @@ from dotenv import load_dotenv
 
 
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 from flask_bcrypt import Bcrypt
+from flask_session import Session
 from src.models.models import db, User
 from src.config.config import ApplicationConfig
 
 app = Flask(__name__)
-app.config.from_object()
+app.config.from_object(ApplicationConfig)
 
 bcrypt = Bcrypt(app)
+server_session = Session(app)
 db.init_app(app)
 
 with app.app_context():
@@ -23,6 +25,19 @@ def home():
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+@app.route("/@me", methods=["GET"])
+def get_current_user():
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return jsonify({"error":"Unauthorized"}), 401
+
+    user = User.query.filter_by(id=user_id).first()
+    return jsonify({
+        "id": user.id,
+        "email": user.email
+    })
 
 @app.route("/register", methods=["POST"])
 def register_user():
@@ -57,6 +72,8 @@ def login_user():
     if not bcrypt.check_password_hash(user.password, password):
         return jsonify({"error":"Unauthorized"}), 401
     
+    session["user_id"] = user.id
+
     return jsonify({
         "id": user.id,
         "email": user.email
