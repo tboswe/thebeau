@@ -1,11 +1,18 @@
 import React, { useState } from 'react'
+import httpClient from '../httpClient';
 
 const LoginPage: React.FC = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-    const logInUser = () => {
+    const logInUser = async () => {
         console.log(email, password);
+
+        const resp = await httpClient.post("//localhost:5000/login", {
+            email, password,
+        });
+
+        console.log(resp.data);
     };
 
     return (
