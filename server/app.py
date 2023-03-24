@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 
 
-
+from flask_cors import CORS
 from flask import Flask, render_template, request, jsonify, session
 from flask_bcrypt import Bcrypt
 from flask_session import Session
@@ -10,6 +10,7 @@ from src.config.config import ApplicationConfig
 
 app = Flask(__name__)
 app.config.from_object(ApplicationConfig)
+CORS(app, supports_credentials=True, origins=["http://localhost:3000", 'http://localhost:5000/login'])
 
 bcrypt = Bcrypt(app)
 server_session = Session(app)
