@@ -2,7 +2,7 @@
   "files": {
     "main.css": "/static/react/css/main.0e9daa13.css",
     "main.js": "/static/react/js/main.69db5522.js",
-    "index.html": "/static/react/index.html",
+    "../../templates/index.html": "/static/react/../../templates/index.html",
     "main.0e9daa13.css.map": "/static/react/css/main.0e9daa13.css.map",
     "main.69db5522.js.map": "/static/react/js/main.69db5522.js.map"
   },
